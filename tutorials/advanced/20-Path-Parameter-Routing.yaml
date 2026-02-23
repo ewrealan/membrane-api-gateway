@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://www.membrane-api.io/v7.1.0.json
+#
+# Tutorial: Path Parameter Routing
+#
+# Try:
+#   curl http://localhost:2000/fruits/12
+
+api:
+  port: 2000
+  path:
+    uri: /fruits/{id}
+  target:
+    url: https://api.predic8.de/shop/v2/products/${pathParam.id}

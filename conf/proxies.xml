@@ -1,0 +1,96 @@
+<spring:beans xmlns="http://membrane-soa.org/proxies/1/"
+			  xmlns:spring="http://www.springframework.org/schema/beans"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+                http://membrane-soa.org/proxies/1/
+                http://membrane-soa.org/schemas/proxies-1.xsd">
+	<router>
+
+		<!-- SayHello API POST metodu kullan urlsi: http://localhost:2026/api/hello -->
+		<api port="2026" name="SayHello">
+			<path>/api/hello</path>
+			<log/>
+			<rateLimiter requestLimit="10" requestLimitDuration="PT1M"/>
+			<request>
+				<groovy>
+					import groovy.json.JsonSlurper
+					def json = new JsonSlurper().parseText(message.getBodyAsStringDecoded())
+					def name = json.Name ?: "Tanımlanmamış"
+					def soap = "&lt;soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+					"&lt;soapenv:Header/>" +
+					"&lt;soapenv:Body>" +
+					"&lt;HelloRequest xmlns=\"http://learnwebservices.com/services/hello\">" +
+					"&lt;Name>" + name + "&lt;/Name>" +
+					"&lt;/HelloRequest>" +
+					"&lt;/soapenv:Body>" +
+					"&lt;/soapenv:Envelope>"
+					message.setBodyContent(soap.bytes)
+					header.add("Content-Type", "text/xml;charset=UTF-8")
+					null
+				</groovy>
+				<rewriter>
+					<map from="^/api/hello" to="/services/hello"/>
+				</rewriter>
+			</request>
+			<response>
+				<groovy>
+					def body = message.getBodyAsStringDecoded()
+					def matcher = body =~ /(?s)&lt;[^:>]*:?Message[^>]*>(.*?)&lt;\/[^:>]*:?Message>/
+					def msg = matcher ? matcher[0][1] : body
+					message.setBodyContent(("{\"Message\": \"" + msg + "\"}").bytes)
+					header.add("Content-Type", "application/json")
+					null
+				</groovy>
+			</response>
+			<target url="https://apps.learnwebservices.com"/>
+		</api>
+
+		<!-- Login API: POST urlsi: http://localhost:2026/api/login -->
+		<api port="2026" name="Login">
+			<path>/api/login</path>
+			<log/>
+			<rateLimiter requestLimit="5" requestLimitDuration="PT1M"/>
+			<request>
+				<groovy>
+					import groovy.json.JsonSlurper
+					def json = new JsonSlurper().parseText(message.getBodyAsStringDecoded())
+					def username = json.username ?: ""
+					def password = json.password ?: ""
+					def rememberMe = json.rememberMe != null ? json.rememberMe : false
+					def body = "{\"username\": \"${username}\", \"password\": \"${password}\", \"rememberMe\": ${rememberMe}}"
+					message.setBodyContent(body.bytes)
+					header.add("Content-Type", "application/json")
+					null
+				</groovy>
+			</request>
+			<response>
+				<groovy>
+					import groovy.json.JsonSlurper
+					def body = message.getBodyAsStringDecoded()
+					def json = new JsonSlurper().parseText(body)
+					def result
+					if (json.success == false &amp;&amp; json.statusCode == 400) {
+					def usernameErr = json.details?.username ?: ""
+					def passwordErr = json.details?.password ?: ""
+					result = "{\"success\": false, \"code\": \"VALIDATION_ERROR\", \"message\": \"Doğrulama hatası\", \"details\": {\"username\": \"${usernameErr}\", \"password\": \"${passwordErr}\"}}"
+					} else if (json.success == false) {
+					result = "{\"success\": false, \"code\": \"INVALID_CREDENTIALS\", \"message\": \"Kullanıcı adı veya şifre hatalı\"}"
+					} else {
+					result = "{\"success\": true, \"code\": \"LOGIN_SUCCESS\", \"message\": \"Giriş başarılı\"}"
+					}
+					message.setBodyContent(result.bytes)
+					header.add("Content-Type", "application/json")
+					null
+				</groovy>
+			</response>
+			<target url="https://test-kbs.cfn.com.tr"/>
+		</api>
+
+		<!-- Admin Console urlsi: http://localhost:9000 -->
+		<api name="Console" port="9000">
+			<adminConsole/>
+		</api>
+
+	</router>
+</spring:beans>

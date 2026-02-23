@@ -1,0 +1,453 @@
+11:49:31,862  INFO 1 main ApiInfo:34 {} - Started 2 APIs:
+11:49:31,868  INFO 1 main ApiInfo:36 {} -   SayHello
+11:49:31,868  INFO 1 main ApiInfo:36 {} -   Console
+11:49:32,822  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+11:49:32,838  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+11:49:32,843  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+11:50:24,389  INFO 1 main ApiInfo:34 {} - Started 2 APIs:
+11:50:24,398  INFO 1 main ApiInfo:36 {} -   SayHello
+11:50:24,398  INFO 1 main ApiInfo:36 {} -   Console
+11:50:25,287  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+11:50:25,299  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+11:50:25,303  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+11:50:44,843  WARN 62 router /0:0:0:0:0:0:0:1:55929 AbstractScriptInterceptor:191 {api=SayHello} - Error executing groovy script: No signature of method: com.predic8.membrane.core.http.HeaderMap.setContentType() is applicable for argument types: (String) values: [text/xml;charset=UTF-8]
+
+					import groovy.json.JsonSlurper
+					def json = new JsonSlurper().parseText(message.getBodyAsStringDecoded())
+					def name = json.Name ?: "World"
+					def soap = """<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+					<soapenv:Header/>
+					<soapenv:Body>
+					<HelloRequest xmlns="http://learnwebservices.com/services/hello">
+					<Name>${name}</Name>
+					</HelloRequest>
+					</soapenv:Body>
+					</soapenv:Envelope>"""
+					message.setBodyContent(soap.bytes)
+					header.setContentType("text/xml;charset=UTF-8")
+				
+11:51:11,648 ERROR 55 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 31: XML document structures must start and end within the same entity.
+11:51:11,648 ERROR 55 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+11:51:59,843  INFO 1 main ApiInfo:34 {} - Started 2 APIs:
+11:51:59,850  INFO 1 main ApiInfo:36 {} -   SayHello
+11:51:59,850  INFO 1 main ApiInfo:36 {} -   Console
+11:52:00,785  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+11:52:00,798  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+11:52:00,803  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+11:52:18,904  WARN 57 router /0:0:0:0:0:0:0:1:64087 AbstractScriptInterceptor:191 {api=SayHello} - Error executing groovy script: Content is not allowed in prolog.
+
+					import groovy.xml.XmlSlurper
+					import groovy.json.JsonOutput
+					def xml = new XmlSlurper().parseText(message.getBodyAsStringDecoded())
+					def msg = xml.'**'.find { it.name() == 'Message' }?.text()
+					def json = JsonOutput.toJson([Message: msg])
+					message.setBodyContent(json.bytes)
+					header.add("Content-Type", "application/json")
+				
+11:53:18,215  INFO 55 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+11:53:18,217  INFO 55 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+11:53:18,377  INFO 55 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+11:53:18,379  INFO 55 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+11:53:34,464  WARN 67 router /0:0:0:0:0:0:0:1:61736 AbstractScriptInterceptor:191 {api=SayHello} - Error executing groovy script: Content is not allowed in prolog.
+
+					import groovy.xml.XmlSlurper
+					import groovy.json.JsonOutput
+					def body = message.getBodyAsStringDecoded().trim()
+					def xml = new XmlSlurper().parseText(body)
+					def msg = xml.'**'.find { it.name() == 'Message' }?.text()
+					def json = JsonOutput.toJson([Message: msg])
+					message.setBodyContent(json.bytes)
+					header.add("Content-Type", "application/json")
+				
+11:53:44,914  WARN 68 router /0:0:0:0:0:0:0:1:63349 AbstractScriptInterceptor:191 {api=SayHello} - Error executing groovy script: Content is not allowed in prolog.
+
+					import groovy.xml.XmlSlurper
+					import groovy.json.JsonOutput
+					def body = message.getBodyAsStringDecoded().trim()
+					def xml = new XmlSlurper().parseText(body)
+					def msg = xml.'**'.find { it.name() == 'Message' }?.text()
+					def json = JsonOutput.toJson([Message: msg])
+					message.setBodyContent(json.bytes)
+					header.add("Content-Type", "application/json")
+				
+11:54:27,756  INFO 65 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+11:54:27,758  INFO 65 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+11:54:27,869  INFO 65 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+11:54:27,871  INFO 65 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+11:55:47,296  INFO 74 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+11:55:47,296  INFO 74 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+11:55:47,393  INFO 74 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+11:55:47,394  INFO 74 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+11:56:38,663  INFO 84 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+11:56:38,664  INFO 84 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+11:56:38,748  INFO 84 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+11:56:38,748  INFO 84 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+14:41:32,898  WARN 96 router /0:0:0:0:0:0:0:1:56420 ScriptingUtils:94 {api=SayHello} - Can't parse body as JSON
+com.fasterxml.jackson.databind.exc.MismatchedInputException: No content to map due to end-of-input
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1]
+	at com.fasterxml.jackson.databind.exc.MismatchedInputException.from(MismatchedInputException.java:72)
+	at com.fasterxml.jackson.databind.ObjectMapper._initForReading(ObjectMapper.java:5143)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:5042)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3954)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3922)
+	at com.predic8.membrane.core.lang.ScriptingUtils.createParameterBindings(ScriptingUtils.java:92)
+	at com.predic8.membrane.core.lang.AbstractScriptInterceptor.getParameterBindings(AbstractScriptInterceptor.java:210)
+	at com.predic8.membrane.core.lang.AbstractScriptInterceptor.runScript(AbstractScriptInterceptor.java:94)
+	at com.predic8.membrane.core.lang.AbstractScriptInterceptor.handleRequest(AbstractScriptInterceptor.java:60)
+	at com.predic8.membrane.core.interceptor.flow.RequestInterceptor.handleRequest(RequestInterceptor.java:51)
+	at com.predic8.membrane.core.interceptor.FlowController.invokeRequestHandlers(FlowController.java:81)
+	at com.predic8.membrane.core.interceptor.UserFeatureInterceptor.handleRequest(UserFeatureInterceptor.java:37)
+	at com.predic8.membrane.core.interceptor.FlowController.invokeRequestHandlers(FlowController.java:81)
+	at com.predic8.membrane.core.transport.http.AbstractHttpHandler.invokeHandlers(AbstractHttpHandler.java:52)
+	at com.predic8.membrane.core.transport.http.HttpServerHandler.process(HttpServerHandler.java:283)
+	at com.predic8.membrane.core.transport.http.HttpServerHandler.processHttp1Request(HttpServerHandler.java:217)
+	at com.predic8.membrane.core.transport.http.HttpServerHandler.processSingleRequest(HttpServerHandler.java:191)
+	at com.predic8.membrane.core.transport.http.HttpServerHandler.run(HttpServerHandler.java:102)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+14:41:32,914  WARN 96 router /0:0:0:0:0:0:0:1:56420 AbstractScriptInterceptor:191 {api=SayHello} - Error executing groovy script: Text must not be null or empty
+
+					import groovy.json.JsonSlurper
+					def json = new JsonSlurper().parseText(message.getBodyAsStringDecoded())
+					def name = json.Name ?: "World"
+					def soap = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+					"<soapenv:Header/>" +
+					"<soapenv:Body>" +
+					"<HelloRequest xmlns=\"http://learnwebservices.com/services/hello\">" +
+					"<Name>" + name + "</Name>" +
+					"</HelloRequest>" +
+					"</soapenv:Body>" +
+					"</soapenv:Envelope>"
+					message.setBodyContent(soap.bytes)
+					header.add("Content-Type", "text/xml;charset=UTF-8")
+					null
+				
+14:42:21,724  INFO 1 main ApiInfo:34 {} - Started 2 APIs:
+14:42:21,735  INFO 1 main ApiInfo:36 {} -   SayHello
+14:42:21,735  INFO 1 main ApiInfo:36 {} -   Console
+14:42:22,744  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+14:42:22,763  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+14:42:22,766  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+14:42:27,404  WARN 57 router /0:0:0:0:0:0:0:1:61784 ScriptingUtils:94 {api=SayHello} - Can't parse body as JSON
+com.fasterxml.jackson.databind.exc.MismatchedInputException: No content to map due to end-of-input
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1]
+	at com.fasterxml.jackson.databind.exc.MismatchedInputException.from(MismatchedInputException.java:72)
+	at com.fasterxml.jackson.databind.ObjectMapper._initForReading(ObjectMapper.java:5143)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:5042)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3954)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3922)
+	at com.predic8.membrane.core.lang.ScriptingUtils.createParameterBindings(ScriptingUtils.java:92)
+	at com.predic8.membrane.core.lang.AbstractScriptInterceptor.getParameterBindings(AbstractScriptInterceptor.java:210)
+	at com.predic8.membrane.core.lang.AbstractScriptInterceptor.runScript(AbstractScriptInterceptor.java:94)
+	at com.predic8.membrane.core.lang.AbstractScriptInterceptor.handleRequest(AbstractScriptInterceptor.java:60)
+	at com.predic8.membrane.core.interceptor.flow.RequestInterceptor.handleRequest(RequestInterceptor.java:51)
+	at com.predic8.membrane.core.interceptor.FlowController.invokeRequestHandlers(FlowController.java:81)
+	at com.predic8.membrane.core.interceptor.UserFeatureInterceptor.handleRequest(UserFeatureInterceptor.java:37)
+	at com.predic8.membrane.core.interceptor.FlowController.invokeRequestHandlers(FlowController.java:81)
+	at com.predic8.membrane.core.transport.http.AbstractHttpHandler.invokeHandlers(AbstractHttpHandler.java:52)
+	at com.predic8.membrane.core.transport.http.HttpServerHandler.process(HttpServerHandler.java:283)
+	at com.predic8.membrane.core.transport.http.HttpServerHandler.processHttp1Request(HttpServerHandler.java:217)
+	at com.predic8.membrane.core.transport.http.HttpServerHandler.processSingleRequest(HttpServerHandler.java:191)
+	at com.predic8.membrane.core.transport.http.HttpServerHandler.run(HttpServerHandler.java:102)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+14:42:27,461  WARN 57 router /0:0:0:0:0:0:0:1:61784 AbstractScriptInterceptor:191 {api=SayHello} - Error executing groovy script: Text must not be null or empty
+
+					import groovy.json.JsonSlurper
+					def json = new JsonSlurper().parseText(message.getBodyAsStringDecoded())
+					def name = json.Name ?: "Tanımlanmamış"
+					def soap = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+					"<soapenv:Header/>" +
+					"<soapenv:Body>" +
+					"<HelloRequest xmlns=\"http://learnwebservices.com/services/hello\">" +
+					"<Name>" + name + "</Name>" +
+					"</HelloRequest>" +
+					"</soapenv:Body>" +
+					"</soapenv:Envelope>"
+					message.setBodyContent(soap.bytes)
+					header.add("Content-Type", "text/xml;charset=UTF-8")
+					null
+				
+16:00:02,605  INFO 1 main ApiInfo:34 {} - Started 2 APIs:
+16:00:02,617  INFO 1 main ApiInfo:36 {} -   SayHello
+16:00:02,617  INFO 1 main ApiInfo:36 {} -   Console
+16:00:03,565  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+16:00:03,578  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+16:00:03,584  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+16:13:26,530  INFO 55 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+16:13:26,534  INFO 55 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+16:13:26,675  INFO 55 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+16:13:26,683  INFO 55 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+16:17:08,424  INFO 67 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+16:17:08,424  INFO 67 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+16:17:08,505  INFO 67 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+16:17:08,505  INFO 67 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+16:18:44,848  INFO 79 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+16:18:44,851  INFO 79 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+16:18:44,956 ERROR 79 hotdeploy GroovyInterceptor:67 {} - Error in Groovy script in API 'Login' with source: 
+					import groovy.json.JsonSlupper
+					def json = new JsonSlurper().parseText(message.getBodyAsString
+				
+16:18:44,959 ERROR 79 hotdeploy GroovyInterceptor:73 {} - Error message: Script198.groovy: 5: Unexpected input: '(' @ line 5, column 44.
+    = new JsonSlurper().parseText(message.g
+                                 ^
+
+16:18:44,962 ERROR 79 hotdeploy HotDeploymentThread:96 {} - Could not redeploy, there are errors in the configuration.
+16:18:55,124 ERROR 79 hotdeploy GroovyInterceptor:67 {} - Error in Groovy script in API 'Login' with source: 
+					import groovy.json.JsonSlupper
+					def json = new JsonSlurper().parseText(message.getBodyAsStringDecoded())
+				
+16:18:55,125 ERROR 79 hotdeploy GroovyInterceptor:73 {} - Error message: Script261.groovy: 4: unable to resolve class groovy.json.JsonSlupper
+ @ line 4, column 6.
+   					import groovy.json.JsonSlupper
+        ^
+
+16:18:55,125 ERROR 79 hotdeploy HotDeploymentThread:96 {} - Could not redeploy, there are errors in the configuration.
+16:20:24,551 ERROR 79 hotdeploy GroovyInterceptor:67 {} - Error in Groovy script in API 'Login' with source: 
+					import groovy.json.JsonSlupper
+					def json = new JsonSlurper().parseText(message.getBodyAsStringDecoded())
+					def username = json.username ?: ""
+					def password = json.password ?: ""
+					def rememberMe
+				
+16:20:24,552 ERROR 79 hotdeploy GroovyInterceptor:73 {} - Error message: Script329.groovy: 4: unable to resolve class groovy.json.JsonSlupper
+ @ line 4, column 6.
+   					import groovy.json.JsonSlupper
+        ^
+
+16:20:24,553 ERROR 79 hotdeploy HotDeploymentThread:96 {} - Could not redeploy, there are errors in the configuration.
+16:21:13,019 ERROR 79 hotdeploy GroovyInterceptor:67 {} - Error in Groovy script in API 'Login' with source: 
+					import groovy.json.JsonSlupper
+					def json = new JsonSlurper().parseText(message.getBodyAsStringDecoded())
+					def username = json.username ?: ""
+					def password = json.password ?: ""
+					def rememberMe = json.rememberMe != null ? json.rememberMe : 
+				
+16:21:13,020 ERROR 79 hotdeploy GroovyInterceptor:73 {} - Error message: Script398.groovy: 9: Unexpected input: '<EOF>' @ line 9, column 5.
+   				
+       ^
+
+16:21:13,020 ERROR 79 hotdeploy HotDeploymentThread:96 {} - Could not redeploy, there are errors in the configuration.
+16:21:22,132 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 66: Content is not allowed in trailing section.
+16:21:22,132 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:23:00,659 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 67: Content is not allowed in trailing section.
+16:23:00,660 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:23:18,823 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 67: Content is not allowed in trailing section.
+16:23:18,823 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:24:10,218 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 67: Content is not allowed in trailing section.
+16:24:10,219 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:25:35,536 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 68: Content is not allowed in trailing section.
+16:25:35,536 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:25:39,600 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 68: Content is not allowed in trailing section.
+16:25:39,600 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:25:42,663 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 68: Content is not allowed in trailing section.
+16:25:42,665 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:25:45,723 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 68: Content is not allowed in trailing section.
+16:25:45,725 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:25:47,781 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 68: Content is not allowed in trailing section.
+16:25:47,781 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:25:50,839 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 68: Content is not allowed in trailing section.
+16:25:50,840 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:25:52,892 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 68: Content is not allowed in trailing section.
+16:25:52,892 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:25:57,950 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: Content is not allowed in trailing section.
+16:25:57,950 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:26:00,022 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: Content is not allowed in trailing section.
+16:26:00,023 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:26:05,083 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: Content is not allowed in trailing section.
+16:26:05,083 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:26:12,155 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: Content is not allowed in trailing section.
+16:26:12,158 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:26:15,217 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: Content is not allowed in trailing section.
+16:26:15,217 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:26:18,273 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: Content is not allowed in trailing section.
+16:26:18,274 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:26:23,336 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: Content is not allowed in trailing section.
+16:26:23,336 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:26:30,405 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: Content is not allowed in trailing section.
+16:26:30,405 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:26:33,466 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: Content is not allowed in trailing section.
+16:26:33,468 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:26:37,528 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 70: Content is not allowed in trailing section.
+16:26:37,528 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+16:50:44,573 ERROR 79 hotdeploy HotDeploymentThread:86 {} - file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 70: Content is not allowed in trailing section.
+16:50:44,576 ERROR 79 hotdeploy HotDeploymentThread:87 {} - Application context was NOT restarted. Please fix the error in the configuration file.
+10:35:58,953 ERROR 1 main RouterCLI:173 {} - Fatal error: file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: The entity name must immediately follow the '&' in the entity reference.
+10:36:07,931 ERROR 1 main RouterCLI:173 {} - Fatal error: file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 69: The entity name must immediately follow the '&' in the entity reference.
+10:37:41,035  INFO 1 main ApiInfo:34 {} - Started 3 APIs:
+10:37:41,035  INFO 1 main ApiInfo:36 {} -   SayHello
+10:37:41,035  INFO 1 main ApiInfo:36 {} -   Login
+10:37:41,035  INFO 1 main ApiInfo:36 {} -   Console
+10:37:42,178  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+10:37:42,193  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+10:37:42,193  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+10:53:31,350  INFO 60 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+10:53:31,352  INFO 60 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+10:53:31,626  INFO 60 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+10:53:31,626  INFO 60 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+10:53:38,746  INFO 77 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+10:53:38,746  INFO 77 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+10:53:38,963  INFO 77 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+10:53:38,963  INFO 77 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+10:53:41,039  INFO 87 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+10:53:41,039  INFO 87 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+10:53:41,391  INFO 87 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+10:53:41,391  INFO 87 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+10:54:20,747  INFO 96 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+10:54:20,748  INFO 96 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+10:54:20,930  INFO 96 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+10:54:20,930  INFO 96 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+11:30:34,096  INFO 1 main ApiInfo:34 {} - Started 3 APIs:
+11:30:34,103  INFO 1 main ApiInfo:36 {} -   SayHello
+11:30:34,103  INFO 1 main ApiInfo:36 {} -   Login
+11:30:34,103  INFO 1 main ApiInfo:36 {} -   Console
+11:30:35,173  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+11:30:35,188  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+11:30:35,188  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+13:24:30,037  INFO 59 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+13:24:30,040  INFO 59 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+13:24:30,347  INFO 59 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+13:24:30,348  INFO 59 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+13:25:32,958  INFO 94 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+13:25:32,959  INFO 94 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+13:25:33,295  INFO 94 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+13:25:33,303  INFO 94 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+13:56:02,821  INFO 105 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+13:56:02,831  INFO 105 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+13:56:03,088  INFO 105 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+13:56:03,088  INFO 105 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+14:31:05,771  INFO 1 main ApiInfo:34 {} - Started 3 APIs:
+14:31:05,782  INFO 1 main ApiInfo:36 {} -   SayHello
+14:31:05,782  INFO 1 main ApiInfo:36 {} -   Login
+14:31:05,782  INFO 1 main ApiInfo:36 {} -   Console
+14:31:06,872  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+14:31:06,892  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+14:31:06,892  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+14:37:20,493  INFO 1 main ApiInfo:34 {} - Started 3 APIs:
+14:37:20,504  INFO 1 main ApiInfo:36 {} -   SayHello
+14:37:20,504  INFO 1 main ApiInfo:36 {} -   Login
+14:37:20,504  INFO 1 main ApiInfo:36 {} -   Console
+14:37:21,584  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+14:37:21,604  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+14:37:21,604  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+14:37:34,382  INFO 61 router /0:0:0:0:0:0:0:1:50860 LogInterceptor:145 {api=Login} - ==== REQUEST  ===
+14:37:34,386  INFO 61 router /0:0:0:0:0:0:0:1:50860 LogInterceptor:145 {api=Login} - POST /api/login HTTP/1.1
+
+14:37:34,388  INFO 61 router /0:0:0:0:0:0:0:1:50860 LogInterceptor:145 {api=Login} - 
+Headers:
+User-Agent: PostmanRuntime/7.51.1
+Accept: */*
+Postman-Token: 820e6ff4-2039-468f-9ba3-de67cc930d38
+Host: localhost:2026
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 57
+X-Forwarded-For: 0:0:0:0:0:0:0:1
+X-Forwarded-Proto: http
+X-Forwarded-Host: localhost:2026
+Content-Type: application/json
+
+14:37:34,389  INFO 61 router /0:0:0:0:0:0:0:1:50860 LogInterceptor:145 {api=Login} - Body:
+{"username": "test", "password": "", "rememberMe": false}
+
+14:37:34,951  INFO 61 router /0:0:0:0:0:0:0:1:50860 LogInterceptor:145 {api=Login} - ==== RESPONSE  ===
+14:37:34,952  INFO 61 router /0:0:0:0:0:0:0:1:50860 LogInterceptor:145 {api=Login} - HTTP/1.1 404 Not Found
+
+14:37:34,953  INFO 61 router /0:0:0:0:0:0:0:1:50860 LogInterceptor:145 {api=Login} - 
+Headers:
+Server: nginx
+Date: Fri, 20 Feb 2026 11:37:34 GMT
+Content-Type: application/json
+Content-Length: 119
+Connection: keep-alive
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+pragma: no-cache
+expires: 0
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+referrer-policy: no-referrer
+
+14:37:34,959  INFO 61 router /0:0:0:0:0:0:0:1:50860 LogInterceptor:145 {api=Login} - Body:
+{"success":false,"statusCode":404,"status":"Not Found","path":"/api/login","timestamp":"2026-02-20T14:37:34.743497383"}
+
+15:00:35,445 ERROR 1 main RouterCLI:173 {} - Fatal error: file [C:\membrane-api-gateway-7.1.0\conf\proxies.xml] line 85: cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://membrane-soa.org/proxies/1/":logs}'. One of '{"http://membrane-soa.org/proxies/1/":for, "http://membrane-soa.org/proxies/1/":dispatching, "http://membrane-soa.org/proxies/1/":setHeader, "http://membrane-soa.org/proxies/1/":jwtAuth, "http://membrane-soa.org/proxies/1/":headerFilter, "http://membrane-soa.org/proxies/1/":throttle, "http://membrane-soa.org/proxies/1/":formValidation, "http://membrane-soa.org/proxies/1/":setCookies, "http://membrane-soa.org/proxies/1/":wsdlPublisher, "http://membrane-soa.org/proxies/1/":openapiPublisher, "http://membrane-soa.org/proxies/1/":soapOperationExtractor, "http://membrane-soa.org/proxies/1/":json2Xml, "http://membrane-soa.org/proxies/1/":xmlContentFilter, "http://membrane-soa.org/proxies/1/":paddingHeader, "http://membrane-soa.org/proxies/1/":shutdown, "http://membrane-soa.org/proxies/1/":shadowing, "http://membrane-soa.org/proxies/1/":apiDocs, "http://membrane-soa.org/proxies/1/":openapiValidator, "http://membrane-soa.org/proxies/1/":greaser, "http://membrane-soa.org/proxies/1/":transform, "http://membrane-soa.org/proxies/1/":httpClient, "http://membrane-soa.org/proxies/1/":destination, "http://membrane-soa.org/proxies/1/":groovy, "http://membrane-soa.org/proxies/1/":prometheus, "http://membrane-soa.org/proxies/1/":xenAuthentication, "http://membrane-soa.org/proxies/1/":time, "http://membrane-soa.org/proxies/1/":oauth2authserver, "http://membrane-soa.org/proxies/1/":template, "http://membrane-soa.org/proxies/1/":static, "http://membrane-soa.org/proxies/1/":echo, "http://membrane-soa.org/proxies/1/":wsdlRewriter, "http://membrane-soa.org/proxies/1/":counter, "http://membrane-soa.org/proxies/1/":choose, "http://membrane-soa.org/proxies/1/":statisticsProvider, "http://membrane-soa.org/proxies/1/":soapStackTraceFilter, "http://membrane-soa.org/proxies/1/":webServiceExplorer, "http://membrane-soa.org/proxies/1/":rewriter, "http://membrane-soa.org/proxies/1/":kubernetesValidation, "http://membrane-soa.org/proxies/1/":statisticsJDBC, "http://membrane-soa.org/proxies/1/":setBody, "http://membrane-soa.org/proxies/1/":internalRouting, "http://membrane-soa.org/proxies/1/":setProperty, "http://membrane-soa.org/proxies/1/":interceptor, "http://membrane-soa.org/proxies/1/":analyser, "http://membrane-soa.org/proxies/1/":http2xml, "http://membrane-soa.org/proxies/1/":accessLog, "http://membrane-soa.org/proxies/1/":rest2Soap, "http://membrane-soa.org/proxies/1/":apiKey, "http://membrane-soa.org/proxies/1/":jwtSign, "http://membrane-soa.org/proxies/1/":cors, "http://membrane-soa.org/proxies/1/":javascript, "http://membrane-soa.org/proxies/1/":replace, "http://membrane-soa.org/proxies/1/":flowInitiator, "http://membrane-soa.org/proxies/1/":ruleMatching, "http://membrane-soa.org/proxies/1/":xml2Json, "http://membrane-soa.org/proxies/1/":webServer, "http://membrane-soa.org/proxies/1/":soapBody, "http://membrane-soa.org/proxies/1/":abort, "http://membrane-soa.org/proxies/1/":login, "http://membrane-soa.org/proxies/1/":beautifier, "http://membrane-soa.org/proxies/1/":index, "http://membrane-soa.org/proxies/1/":response, "http://membrane-soa.org/proxies/1/":log, "http://membrane-soa.org/proxies/1/":authHead2Body, "http://membrane-soa.org/proxies/1/":basicAuthentication, "http://membrane-soa.org/proxies/1/":ntlm, "http://membrane-soa.org/proxies/1/":stompClient, "http://membrane-soa.org/proxies/1/":graphQLProtection, "http://membrane-soa.org/proxies/1/":clamav, "http://membrane-soa.org/proxies/1/":userFeature, "http://membrane-soa.org/proxies/1/":oauth2Resource2, "http://membrane-soa.org/proxies/1/":global, "http://membrane-soa.org/proxies/1/":return, "http://membrane-soa.org/proxies/1/":requireAuth, "http://membrane-soa.org/proxies/1/":reverseProxying, "http://membrane-soa.org/proxies/1/":clusterNotification, "http://membrane-soa.org/proxies/1/":jsonProtection, "http://membrane-soa.org/proxies/1/":sampleSoapService, "http://membrane-soa.org/proxies/1/":idempotency, "http://membrane-soa.org/proxies/1/":cache, "http://membrane-soa.org/proxies/1/":oauth2PermissionChecker, "http://membrane-soa.org/proxies/1/":validator, "http://membrane-soa.org/proxies/1/":rateLimiter, "http://membrane-soa.org/proxies/1/":soap2Rest, "http://membrane-soa.org/proxies/1/":limit, "http://membrane-soa.org/proxies/1/":webSocket, "http://membrane-soa.org/proxies/1/":chain, "http://membrane-soa.org/proxies/1/":exchangeStore, "http://membrane-soa.org/proxies/1/":adminApi, "http://membrane-soa.org/proxies/1/":xmlProtection, "http://membrane-soa.org/proxies/1/":balancer, "http://membrane-soa.org/proxies/1/":wsaEndpointRewriter, "http://membrane-soa.org/proxies/1/":openTelemetry, "http://membrane-soa.org/proxies/1/":acmeHttpChallenge, "http://membrane-soa.org/proxies/1/":request, "http://membrane-soa.org/proxies/1/":regExReplacer, "http://membrane-soa.org/proxies/1/":tokenValidator, "http://membrane-soa.org/proxies/1/":call, "http://membrane-soa.org/proxies/1/":statisticsCSV, "http://membrane-soa.org/proxies/1/":logContext, "http://membrane-soa.org/proxies/1/":APIsJSON, "http://membrane-soa.org/proxies/1/":tcp, "http://membrane-soa.org/proxies/1/":accessControl, "http://membrane-soa.org/proxies/1/":adminConsole, "http://membrane-soa.org/proxies/1/":if, WC[##other:"http://membrane-soa.org/proxies/1/"], "http://membrane-soa.org/proxies/1/":target}' is expected.
+15:01:04,834  INFO 1 main ApiInfo:34 {} - Started 3 APIs:
+15:01:04,837  INFO 1 main ApiInfo:36 {} -   SayHello
+15:01:04,844  INFO 1 main ApiInfo:36 {} -   Login
+15:01:04,844  INFO 1 main ApiInfo:36 {} -   Console
+15:01:05,904  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+15:01:05,923  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+15:01:05,923  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+15:03:06,793  INFO 59 hotdeploy HttpTransport:82 {} - Closing server port: port=9000 ip=null
+15:03:06,793  INFO 59 hotdeploy HttpTransport:82 {} - Closing server port: port=2026 ip=null
+15:03:06,999  INFO 59 hotdeploy HttpEndpointListener:92 {} - listening at '*:2026'
+15:03:06,999  INFO 59 hotdeploy HttpEndpointListener:92 {} - listening at '*:9000'
+15:46:41,976  INFO 1 main ApiInfo:34 {} - Started 3 APIs:
+15:46:41,987  INFO 1 main ApiInfo:36 {} -   SayHello
+15:46:41,987  INFO 1 main ApiInfo:36 {} -   Login
+15:46:41,987  INFO 1 main ApiInfo:36 {} -   Console
+15:46:43,019  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+15:46:43,038  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+15:46:43,038  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+15:47:00,137  INFO 1 main ApiInfo:34 {} - Started 3 APIs:
+15:47:00,149  INFO 1 main ApiInfo:36 {} -   SayHello
+15:47:00,149  INFO 1 main ApiInfo:36 {} -   Login
+15:47:00,149  INFO 1 main ApiInfo:36 {} -   Console
+15:47:01,176  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+15:47:01,197  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+15:47:01,201  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!
+16:22:51,660  INFO 61 router /0:0:0:0:0:0:0:1:63631 LogInterceptor:145 {api=Login} - ==== REQUEST  ===
+16:22:51,664  INFO 61 router /0:0:0:0:0:0:0:1:63631 LogInterceptor:145 {api=Login} - POST /api/login HTTP/1.1
+
+16:22:51,667  INFO 61 router /0:0:0:0:0:0:0:1:63631 LogInterceptor:145 {api=Login} - 
+Headers:
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.51.1
+Accept: */*
+Postman-Token: 9a68d705-af35-4afe-9744-627e6ce82644
+Host: localhost:2026
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 69
+X-Forwarded-For: 0:0:0:0:0:0:0:1
+X-Forwarded-Proto: http
+X-Forwarded-Host: localhost:2026
+
+16:22:51,675  INFO 61 router /0:0:0:0:0:0:0:1:63631 LogInterceptor:145 {api=Login} - Body:
+{
+  "username": "test",
+  "password": "",
+  "rememberMe": false
+}
+
+16:22:52,416  INFO 61 router /0:0:0:0:0:0:0:1:63631 LogInterceptor:145 {api=Login} - ==== RESPONSE  ===
+16:22:52,417  INFO 61 router /0:0:0:0:0:0:0:1:63631 LogInterceptor:145 {api=Login} - HTTP/1.1 404 Not Found
+
+16:22:52,418  INFO 61 router /0:0:0:0:0:0:0:1:63631 LogInterceptor:145 {api=Login} - 
+Headers:
+Server: nginx
+Date: Fri, 20 Feb 2026 13:22:52 GMT
+Content-Length: 100
+Connection: keep-alive
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+pragma: no-cache
+expires: 0
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+referrer-policy: no-referrer
+Content-Type: application/json
+
+16:22:52,419  INFO 61 router /0:0:0:0:0:0:0:1:63631 LogInterceptor:145 {api=Login} - Body:
+{"success": false, "code": "INVALID_CREDENTIALS", "message": "Kullanıcı adı veya şifre hatalı"}
+
+09:33:51,400  INFO 1 main ApiInfo:34 {} - Started 3 APIs:
+09:33:51,416  INFO 1 main ApiInfo:36 {} -   SayHello
+09:33:51,416  INFO 1 main ApiInfo:36 {} -   Login
+09:33:51,416  INFO 1 main ApiInfo:36 {} -   Console
+09:33:52,585  INFO 1 main HttpEndpointListener:92 {} - listening at '*:2026'
+09:33:52,616  INFO 1 main HttpEndpointListener:92 {} - listening at '*:9000'
+09:33:52,616  INFO 1 main RouterCLI:418 {} - Membrane API Gateway 7.1.0 up and running!

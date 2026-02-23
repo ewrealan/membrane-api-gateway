@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://www.membrane-api.io/v7.1.0.json
+api:
+  port: 2000
+  flow:
+    - formValidation:
+        fields:
+          - name: name
+            regex: '[a-zA-Z]+'
+  target:
+    url: https://api.predic8.de/shop/v2/products

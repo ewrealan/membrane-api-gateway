@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://www.membrane-api.io/v7.1.0.json
+#
+# Tutorial: setHeader
+#
+# Try:
+#     curl -v http://localhost:2000
+#     curl -v -d "Hugo" http://localhost:2000
+#
+#     Check the response headers.
+
+api:
+  port: 2000
+  flow:
+    - response:
+        - setHeader:
+            name: X-Powered-By
+            value: Membrane # Static value
+        - setHeader:
+            name: X-Method
+            value: ${method} # Variable or computed value
+        - setHeader:
+            name: X-Name
+            value: Hi ${body}!
+    - return:
+        status: 200

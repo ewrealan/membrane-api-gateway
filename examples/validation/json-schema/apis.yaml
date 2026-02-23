@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://www.membrane-api.io/v7.1.0.json
+# Simple JSON Schema validation example
+api:
+  port: 2000
+  flow:
+    - request:
+        - validator:
+            jsonSchema: schemas/schema2000.json
+  target:
+    host: localhost
+    port: 2002
+
+---
+# JSON Schema with schemaMappings for resolving $ref URNs
+api:
+  port: 2001
+  flow:
+    - request:
+        - validator:
+            jsonSchema: schemas/schema2001.json
+            schemaMappings:
+              schemas:
+                - id: urn:app:base_def
+                  location: schemas/base.json
+                - id: urn:app:meta_def
+                  location: schemas/meta.json
+  target:
+    host: localhost
+    port: 2002
+
+---
+# Backend
+api:
+  port: 2002
+  flow:
+    - groovy:
+        src: Response.ok("<response>good request</response>").build()

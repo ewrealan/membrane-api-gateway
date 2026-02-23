@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://www.membrane-api.io/v7.1.0.json
+#
+# Tutorial: SOAP Array to JSON Array
+#
+# Transforms a SOAP body with a list of fruits:
+#
+# <s11:Envelope xmlns:s11="http://schemas.xmlsoap.org/soap/envelope/">
+#   <s11:Body>
+#     <f:getFruitsResponse xmlns:f="https://predic8.de/fruits">
+#       <fruit><name>Apricot</name><price>3.8</price></fruit>
+#       <fruit><name>Date</name><price>2.3</price></fruit>
+#     </f:getFruitsResponse>
+#   </s11:Body>
+# </s11:Envelope>
+#
+# Into:
+#
+# {
+#   "fruits": [
+#     { "name": "Apricot", "price": 3.8 },
+#     { "name": "Date", "price": 2.3 }
+#   ]
+# }
+#
+# This example focuses on the transformation.
+#
+# Try:
+#     curl -d @fruits.soap.xml -H "Content-Type: text/xml" localhost:2000
+
+components:
+  ns:
+    xmlConfig:
+      namespaces:
+        - prefix: f
+          uri: https://predic8.de/fruits
+---
+
+api:
+  port: 2000
+  flow:
+    - request:
+        - template:
+            pretty: true
+            contentType: application/json
+            src: |
+              <%
+                def fruits = xpath('//f:fruit')
+                def total = fruits.getLength()
+              %>
+              { "fruits":
+                <%= fruits.collect { fruit -> [
+                  "name": xpath('string(./f:name)', fruit),
+                  "price": xpath('number(./f:price)', fruit)
+                ] } %>
+              }
+        - return:
+            status: 200
