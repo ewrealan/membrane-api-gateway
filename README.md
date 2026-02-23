@@ -66,7 +66,7 @@ membrane.cmd
 
 POST http://localhost:2026/api/hello
 
-{ "Name": "Ahmet" }
+{ "Name": "emre" }
 
 ```
 
@@ -78,7 +78,7 @@ POST http://localhost:2026/api/hello
 
 POST http://localhost:2026/api/login
 
-{ "username": "ahmet", "password": "123", "rememberMe": false }
+{ "username": "emre", "password": "123", "rememberMe": false }
 
 ```
 
